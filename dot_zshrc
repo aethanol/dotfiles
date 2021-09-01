@@ -1,0 +1,51 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt autocd beep extendedglob nomatch notify
+bindkey -v
+bindkey '^R' history-incremental-search-backward
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/eanderson/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+zmodload -a colors
+zmodload -a autocomplete
+zmodload -a complist
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+### Lines for prompt configuration
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+zstyle ':vcs_info:git:*' enable git
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr '%{%F{green}%B%}✗%{%b%f%}'
+zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%B%}✗%{%b%f%}'
+zstyle ':vcs_info:git:*' formats '%c%u%F{2}[%b]%f'
+zstyle ':vcs_info:git:*' actionformats '%c%u%F{2}[%b]%f'
+
+## Display the existence of files not yet known to VCS
+## git: Show marker (✗) if there are untracked files in repository
+## Make sure you have added staged to your 'formats':  %c
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
++vi-git-untracked(){
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+        git status --porcelain | grep '??' &> /dev/null ; then
+        # This will show the marker if there are any untracked files in repo.
+        # If instead you want to show the marker only if there are untracked
+        # files in $PWD, use:
+        #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
+        hook_com[staged]+='%{%F{red}%B%}✗%{%b%f%}'
+    fi
+}
+PROMPT='${vcs_info_msg_0_}%F{14}[%5~]%f%B$%b '
+
+## Lines for ls colors
+export CLICOLOR=1
+zstyle ':completion:*:default' list-colors ''

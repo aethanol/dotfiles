@@ -1,0 +1,26 @@
+[includeIf "gitdir:personal/"]
+	path = .gitconfig-personal
+[includeIf "gitdir:.local/"]
+        path = .gitconfig-personal
+[includeIf "gitdir:atlassian/"]
+	path = .gitconfig-work
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[url "git@bitbucket.org:"]
+	insteadOf = https://bitbucket.org/
+[push]
+	default = simple
+[core]
+	excludesfile = /Users/eanderson/.gitignore
+	editor = /usr/bin/vim
+	attributesfile = /Users/eanderson/.gitattributes
+[alias]
+	unstage = reset
+	lg1 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold magenta)%d%C(reset)' --abbrev-commit --date=relative
+	lg2 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold magenta)%d%C(reset)%n''          %C(white)%s%C(reset) %C(bold white)— %an%C(reset)' --abbrev-commit
+[credential]
+	helper = osxkeychain
+[pull]
+	ff = only
+[url "ssh://git@stash.atlassian.com:7997/"]
+	insteadOf = https://stash.atlassian.com/scm/
