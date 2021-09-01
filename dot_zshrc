@@ -13,11 +13,6 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-zmodload -a colors
-zmodload -a autocomplete
-zmodload -a complist
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
 ### Lines for prompt configuration
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
